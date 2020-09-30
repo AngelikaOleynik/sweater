@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import sweater.domain.Message;
+import sweater.domain.Role;
 import sweater.domain.User;
 import sweater.repository.MessageRepository;
 
@@ -15,6 +16,8 @@ import java.util.Map;
 
 @Controller
 public class MainController {
+
+    private User user;
     @Autowired
     private MessageRepository messageRepository;
 
@@ -25,7 +28,7 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-        Iterable<Message> messages = messageRepository.findAll();
+        Iterable<Message> messages;
 
         if (filter != null && !filter.isEmpty()) {
             messages = messageRepository.findByTag(filter);
@@ -35,6 +38,7 @@ public class MainController {
 
         model.addAttribute("messages", messages);
         model.addAttribute("filter", filter);
+
 
         return "main";
     }

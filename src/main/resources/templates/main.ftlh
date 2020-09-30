@@ -6,7 +6,6 @@
         <@l.logout />
         <span><a href="/user">User list</a></span>
     </div>
-    <div>
         <form method="post">
             <input type="text" name="text" placeholder="Введите сообщение" />
             <input type="text" name="tag" placeholder="Тэг">
@@ -16,7 +15,7 @@
     </div>
     <div>Список сообщений</div>
     <form method="get" action="/main">
-        <input type="text" name="filter" value="${filter}">
+        <input type="text" name="filter" value="${filter?ifExists}">
         <button type="submit">Найти</button>
     </form>
     <#list messages as message>
