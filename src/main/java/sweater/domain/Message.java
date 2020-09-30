@@ -2,10 +2,10 @@ package sweater.domain;
 
 import javax.persistence.*;
 
-@Entity // дает знать спрингу, что это сущность, которую надо сохранить в БД
+@Entity
 public class Message {
-    @Id // идентификатор
-    @GeneratedValue(strategy = GenerationType.AUTO) //Спринг сам разбирается с генерацией id в бд
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
     private String text;
@@ -15,7 +15,16 @@ public class Message {
     @JoinColumn(name = "user_id")
     private User author;
 
-    public String getAuthorName(){
+    public Message() {
+    }
+
+    public Message(String text, String tag, User user) {
+        this.author = user;
+        this.text = text;
+        this.tag = tag;
+    }
+
+    public String getAuthorName() {
         return author != null ? author.getUsername() : "<none>";
     }
 
@@ -27,13 +36,12 @@ public class Message {
         this.author = author;
     }
 
-    public Message() {
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public Message(String text, String tag, User user) {
-        this.author = user;
-        this.text = text;
-        this.tag = tag;
+    public String getText() {
+        return text;
     }
 
     public Integer getId() {
@@ -42,14 +50,6 @@ public class Message {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public String getTag() {
