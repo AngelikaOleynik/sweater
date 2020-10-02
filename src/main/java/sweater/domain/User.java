@@ -1,22 +1,35 @@
 package sweater.domain;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Table(name = "usr")
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotBlank(message = "Username can not be empty")
     private String username;
+    @NotBlank(message = "Password can not be empty")
     private String password;
+
+    //для автоматической проверки паролей
+    @Transient //не добавлять в бд и не пытаться получить это поле из бд
+    private String password2;
     private boolean active;
 
+    @Email(message = "Email is not correct") //проверка правильности вводда email
+    @NotBlank(message = "E-mail can not be empty")
     private String email;
     private String activationCode;
 
@@ -108,5 +121,13 @@ public class User implements UserDetails {
 
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
+    }
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
     }
 }
