@@ -97,7 +97,7 @@ public class MainController {
     }
 
     @GetMapping("/user-messages/{user}")
-    public String userMessages(
+    public String userMessges(
             @AuthenticationPrincipal User currentUser,
             @PathVariable User user,
             Model model,
@@ -105,10 +105,10 @@ public class MainController {
     ) {
         Set<Message> messages = user.getMessages();
 
-        model.addAttribute("userChannel", user); //пользователь, чью страницу открываем
+        model.addAttribute("userChannel", user);
         model.addAttribute("subscriptionsCount", user.getSubscriptions().size());
         model.addAttribute("subscribersCount", user.getSubscribers().size());
-        model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser) );//является ли пользователь подписчиком того пользователяБ на чью страницу пришел
+        model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser));
         model.addAttribute("messages", messages);
         model.addAttribute("message", message);
         model.addAttribute("isCurrentUser", currentUser.equals(user));
@@ -125,7 +125,7 @@ public class MainController {
             @RequestParam("tag") String tag,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
-        if (message.getAuthor().equals(currentUser)) { //пользователь может менять только свои сообщения
+        if (message.getAuthor().equals(currentUser)) {
             if (!StringUtils.isEmpty(text)) {
                 message.setText(text);
             }
@@ -141,5 +141,4 @@ public class MainController {
 
         return "redirect:/user-messages/" + user;
     }
-
 }
