@@ -18,6 +18,7 @@ import java.util.Map;
 public class UserController {
 
     private UserService userService;
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -52,7 +53,7 @@ public class UserController {
     }
 
     @GetMapping("profile")
-    public String profile(Model model, @AuthenticationPrincipal User user){
+    public String profile(Model model, @AuthenticationPrincipal User user) {
         model.addAttribute("username", user.getUsername());
         model.addAttribute("email", user.getEmail());
         return "profile";
@@ -61,11 +62,16 @@ public class UserController {
     @PostMapping("profile")
     public String updateProfile(@AuthenticationPrincipal User user,
                                 @RequestParam String password,
-                                @RequestParam String email){
+                                @RequestParam String email) {
         userService.updateProfile(user, password, email);
 
         return "redirect:/user/profile";
 
     }
 
+
+    @GetMapping("subscribe")
+    public String subscribe(){
+
+    }
 }
