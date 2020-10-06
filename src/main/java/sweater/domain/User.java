@@ -53,6 +53,9 @@ public class User implements UserDetails {
         return roles.contains(Role.ADMIN);
     }
 
+    public User() {
+    }
+
     public Long getId() {
         return id;
     }
