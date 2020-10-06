@@ -1,6 +1,5 @@
 package sweater.domain;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,25 +7,23 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "usr")
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @NotBlank(message = "Username can not be empty")
+    @NotBlank(message = "Username cannot be empty")
     private String username;
-    @NotBlank(message = "Password can not be empty")
+    @NotBlank(message = "Password cannot be empty")
     private String password;
-
     private boolean active;
 
-    @Email(message = "Email is not correct") //проверка правильности вводда email
-    @NotBlank(message = "E-mail can not be empty")
+    @Email(message = "Email is not correct")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
     private String activationCode;
 
@@ -36,9 +33,23 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    Set<Message> messages;
+    private Set<Message> messages;
 
-    public boolean isAdmin(){
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
+    }
+
+    public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }
 
